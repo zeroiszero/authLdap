@@ -1,17 +1,14 @@
 <?php
 /**
  * Copyright (c) Andreas Heigl<andreas@heigl.org>
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,16 +23,10 @@
  * @since     04.09.2016
  * @link      http://github.com/heiglandreas/authLDAP
  */
-/*
-Plugin Name: AuthLDAP
-Plugin URI: https://github.com/heiglandreas/authLdap
-Description: This plugin allows you to use your existing LDAP as authentication base for WordPress
-Version: 1.4.19
-Author: Andreas Heigl <a.heigl@wdv.de>
-Author URI: http://andreas.heigl.org
-*/
-require_once dirname(__FILE__) . '/src/Factory.php';
-require_once dirname(__FILE__) . '/src/AuthLdap.php';
-require_once dirname(__FILE__) . '/src/LDAP.php';
 
-AuthLdapFactory::create();
+namespace Org_Heigl\Wp\AuthLdapTest;
+
+class OptionSetupTest
+{
+
+}

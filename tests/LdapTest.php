@@ -31,10 +31,15 @@
  */
 
 /** ldap */
-require_once 'ldap.php';
 
 class LdapTest extends PHPUnit_Framework_TestCase
 {
+
+    public function setup()
+    {
+        $this->markTestSkipped('Out Of Order');
+    }
+
     /**
      *
      * @dataProvider dpInstantiateLdapClass

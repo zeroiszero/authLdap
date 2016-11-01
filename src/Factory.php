@@ -29,11 +29,109 @@
 
 namespace Org_Heigl\Wp\AuthLdap;
 
+use Org_Heigl\Wp\AuthLdap\Admin\Options;
+
 class Factory
 {
-    public static function create()
+    /**
+     * @param      $user
+     * @param      $username
+     * @param      $password
+     * @param bool $already_md5
+     *
+     * @return WP_User|WP_Error
+     */
+    public static function login($user, $username, $password, $already_md5 = false)
     {
-        $plugin = new AuthLdap();
-        $plugin->init();
+        try {
+            $result = false;
+            $options  = (new OptionFactory())->getOptionObject();
+            $debugger = new Debugger();
+            $debugger->enable($options->get('debug'));
+            $ldap   = LdapServerCollectionFactory::create($options, $debugger);
+            $plugin = new AuthLdap($options, $ldap, $debugger);
+            $plugin->init();
+            $adminOpts = new Options($options);
+            $adminOpts->init();
+        } catch(\Exception $e) {
+           return false;
+        }
+    }
+
+    /**
+     * This function disables the password-change fields in the users preferences.
+     *
+     * It does not make sense to authenticate via LDAP and then allow the user to
+     * change the password only in the wordpress database. And changing the password
+     * LDAP-wide can not be the scope of Wordpress!
+     *
+     * Whether the user is an LDAP-User or not is determined using the authLDAP-Flag
+     * of the users meta-informations
+     *
+     * @param boolean $return
+     * @param WP_User $user
+     *
+     * @conf boolean authLDAP
+     * @return bool false, if the user whose prefs are viewed is an LDAP-User, true if
+     * he isn't
+     */
+    public static function show_password_fields($return, $user)
+    {
+        if (! $user) {
+            return true;
+        }
+
+        if (get_user_meta($user->ID, 'authLDAP')) {
+            return false;
+        }
+
+        return $return;
+    }
+
+    /**
+     * This function disables the password reset for a user.
+     *
+     * It does not make sense to authenticate via LDAP and then allow the user to
+     * reset the password only in the wordpress database. And changing the password
+     * LDAP-wide can not be the scope of Wordpress!
+     *
+     * Whether the user is an LDAP-User or not is determined using the authLDAP-Flag
+     * of the users meta-informations
+     *
+     * @param bool $return
+     * @param int  $userid The ID of the user whose password might be reset
+     *
+     * @author chaplina (https://github.com/chaplina)
+     * @return false, if the user is an LDAP-User, true if he isn't
+     */
+    public static function allow_password_reset($return, $userid)
+    {
+        if (! (isset($userid))) {
+            return true;
+        }
+
+        if (get_user_meta($userid, 'authLDAP')) {
+            return false;
+        }
+
+        return $return;
+    }
+
+    /**
+     * Do not send an email after changing the password or the email of the user!
+     *
+     * @param boolean $result      The initial resturn value
+     * @param array   $user        The old userdata
+     * @param array   $newUserData The changed userdata
+     *
+     * @return bool
+     */
+    public static function send_change_email($result, $user, $newUserData)
+    {
+        if (get_user_meta($user['ID'], 'authLDAP')) {
+            return false;
+        }
+
+        return $result;
     }
 }

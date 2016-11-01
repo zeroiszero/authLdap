@@ -26,22 +26,12 @@
  * @since     04.09.2016
  * @link      http://github.com/heiglandreas/authLDAP
  */
-/*
-Plugin Name: AuthLDAP
-Plugin URI: https://github.com/heiglandreas/authLdap
-Description: This plugin allows you to use your existing LDAP as authentication base for WordPress
-Version: 2.0.0
-Author: Andreas Heigl <a.heigl@wdv.de>
-Author URI: http://andreas.heigl.org
-*/
-require_once __DIR__ . '/src/Autoloader/Autoloader.php';
-\Org_Heigl\Wp\AuthLdap\Autoloader\Autoloader::register();
 
-add_filter('show_password_fields', [\Org_Heigl\Wp\AuthLdap\Factory::class, 'show_password_fields'], 10, 2);
-add_filter('allow_password_reset', [\Org_Heigl\Wp\AuthLdap\Factory::class, 'allow_password_reset'], 10, 2);
-add_action('admin_menu', [\Org_Heigl\Wp\AuthLdap\Admin\OptionsFactory::class, 'addmenu']);
-add_action('admin_init', [\Org_Heigl\Wp\AuthLdap\Admin\OptionsFactory::class, 'init']);
-add_filter('authenticate', [\Org_Heigl\Wp\AuthLdap\Factory::class, 'login'], 10, 3);
-add_filter('send_password_change_email', [\Org_Heigl\Wp\AuthLdap\Factory::class, 'send_change_email'], 10, 3);
-add_filter('send_email_change_email', [\Org_Heigl\Wp\AuthLdap\Factory::class, 'send_change_email'], 10, 3);
+namespace Org_Heigl\Wp\AuthLdap;
 
+interface DebuggerInterface
+{
+    public function debug($text);
+
+    public function enable($level);
+}

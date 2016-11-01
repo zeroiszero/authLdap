@@ -18,16 +18,17 @@
         "codeclimate/php-test-reporter": "0.1.*",
         "squizlabs/php_codesniffer": "~2.3",
         "phpunit/phpunit": "^5.5",
-        "brain/monkey": "^1.4"
+        "brain/monkey": "^1.4",
+        "php-mock/php-mock-mockery": "^1.1"
     },
     "autoload" : {
         "psr-4" : {
-            "\\Org_Heigl\\Wp\\AuthLdap\\" : "src/"
+            "Org_Heigl\\Wp\\AuthLdap\\" : "src/"
         }
     },
     "autoload-dev" : {
         "psr-4" : {
-            "\\Org_Heigl\\Wp\\AuthLdapTest\\" : "tests"
+            "Org_Heigl\\Wp\\AuthLdapTest\\" : "tests"
         }
     }
 }
